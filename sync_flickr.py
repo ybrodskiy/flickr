@@ -1,3 +1,4 @@
+#!/usr/bin/python
 import flickr_api as f
 import sys
 import os
