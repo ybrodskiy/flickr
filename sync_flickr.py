@@ -64,7 +64,7 @@ try :
     for i,p in enumerate(ps) :
         print i,p.title
         if 13  == i : download_set( u, i )
-        #download_set(i)
+        #download_set( u,i )
 except IndexError :
     print "usage: python show_albums.py username [access_token_file]"
     print "Displays the list of photosets belonging to a user"
