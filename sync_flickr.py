@@ -7,7 +7,7 @@ import logging
 #photo_dir="/share/Multimedia/Photos/"
 photo_dir="./"
 
-logging.basicConfig(filename=photo_dir+'sync.log', filemode='w', 
+logging.basicConfig(filename='/var/log/flickrsync.log', filemode='w', 
                                                    format='%(asctime)s,%(msecs)d %(name)s %(levelname)s %(message)s', 
                                                    datefmt='%H:%M:%S', 
                                                    level=logging.INFO)
