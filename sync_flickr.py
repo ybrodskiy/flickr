@@ -2,9 +2,15 @@
 import flickr_api as f
 import sys
 import os
+import logging
 
 #photo_dir="/share/Multimedia/Photos/"
 photo_dir="./"
+
+logging.basicConfig(filename=photo_dir+'sync.log', filemode='w', 
+                                                   format='%(asctime)s,%(msecs)d %(name)s %(levelname)s %(message)s', 
+                                                   datefmt='%H:%M:%S', 
+                                                   level=logging.INFO)
 execute = 0
 ##############################################
 def download_set( user, photoset_idx ):
@@ -23,7 +29,7 @@ def download_set( user, photoset_idx ):
         if not os.path.exists(set_dir) : os.mkdir(set_dir)
         os.chdir(set_dir)
         
-        print "Downloading..."
+        logging.info('Starting processing')
         for p in ps.getPhotos() :
             # if title is empty, set it to set name
             if not p.title :
@@ -32,14 +38,16 @@ def download_set( user, photoset_idx ):
                 title = p.title
             # let's check if this is a video or photo
             if not p.media == "video" :
-                ext = "jpg"
+                ext = ".jpg"
             else :
-                ext = "mp4"
+                ext = ".mp4"
 
-            if not os.path.exists(title+"_"+p.id+"."+ext) :
-                print "   "+title+"_"+p.id+"."+ext
+            if not os.path.exists(title+"_"+p.id+ext) :
+                logging.info("Processing %s", title+"_"+p.id+ext)
                 #print p.getInfo()
-                if execute : p.save(title+"_"+p.id+"."+ext)
+                if execute : p.save(title+"_"+p.id+ext)
+            else :
+                logging.info("Skipping %s", title+"_"+p.id+ext)
         
     except IndexError : pass
     return
@@ -62,7 +70,7 @@ try :
     ps = u.getPhotosets()
     
     for i,p in enumerate(ps) :
-        print i,p.title
+        logging.info("Checking set # %s, named: %s", i,p.title)
         if 13  == i : download_set( u, i )
         #download_set( u,i )
 except IndexError :
